@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Enum\UserRole;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        collect(UserRole::cases())->each(function ($role) {
+            Role::updateOrCreate(['name' => $role]);
+            $this->command->info("seeding  {$role->name}");
+        });
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
     }
 }

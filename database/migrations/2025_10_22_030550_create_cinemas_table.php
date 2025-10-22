@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->text('address')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->longText('thumbnail')->nullable();
             $table->timestamps();
         });
     }
