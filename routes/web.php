@@ -1,7 +1,8 @@
 <?php
 
+use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('/dashboard')->name('dashboard')->group(function () {
+    Volt::route('/', 'dashboard.index');
 });
