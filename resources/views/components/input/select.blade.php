@@ -1,6 +1,7 @@
 @props([
     'class' => 'mb-3',
     'label' => '',
+    'options' => [], // ['key' => 'Label']
 ])
 
 @php
@@ -9,26 +10,27 @@
 
 <div class="{{ $class }}">
     @if ($label)
-        <label class="form-label" for="input-{{ Str::slug($label) }}">
+        <label class="form-label" for="select-{{ Str::slug($label) }}">
             {{ Str::title($label) }}
         </label>
     @endif
 
-    <input
+    <select
         {{ $attributes->merge([
-            'class' => 'form-control' . ($errors->has($model) ? ' is-invalid' : ''),
-            'type' => 'text',
-            'id' => 'input-' . Str::slug($label),
+            'class' => 'form-select' . ($errors->has($model) ? ' is-invalid' : ''),
+            'id' => 'select-' . Str::slug($label),
             'name' => $model,
-            'placeholder' => 'Input ' . Str::title($label),
         ]) }}
-    />
-    <small>{{ $slot }}</small>
+    >
+        <option value="">-- Pilih {{ Str::title($label) }} --</option>
+        {{ $slot }}
+    </select>
+
     {{-- Error message --}}
     @if ($model)
         @error($model)
             <div class="invalid-feedback">
-                <small>{{ $message }}</small>
+                {{ $message }}
             </div>
         @enderror
     @endif

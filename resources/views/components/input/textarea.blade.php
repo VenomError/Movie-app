@@ -1,6 +1,7 @@
 @props([
     'class' => 'mb-3',
     'label' => '',
+    'rows' => 3,
 ])
 
 @php
@@ -9,26 +10,26 @@
 
 <div class="{{ $class }}">
     @if ($label)
-        <label class="form-label" for="input-{{ Str::slug($label) }}">
+        <label class="form-label" for="textarea-{{ Str::slug($label) }}">
             {{ Str::title($label) }}
         </label>
     @endif
 
-    <input
+    <textarea
         {{ $attributes->merge([
             'class' => 'form-control' . ($errors->has($model) ? ' is-invalid' : ''),
-            'type' => 'text',
-            'id' => 'input-' . Str::slug($label),
+            'id' => 'textarea-' . Str::slug($label),
             'name' => $model,
+            'rows' => $rows,
             'placeholder' => 'Input ' . Str::title($label),
         ]) }}
-    />
-    <small>{{ $slot }}</small>
+    ></textarea>
+
     {{-- Error message --}}
     @if ($model)
         @error($model)
             <div class="invalid-feedback">
-                <small>{{ $message }}</small>
+                {{ $message }}
             </div>
         @enderror
     @endif
