@@ -126,7 +126,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereUpdatedAt($value)
  * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie getNowShowing()
+ * @property-read string $duration_human
  */
 	class Movie extends \Eloquent {}
 }
@@ -202,6 +202,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereStartTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime belumTayang()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime sedangTayang()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime sudahTayang()
  */
 	class ShowTime extends \Eloquent {}
 }

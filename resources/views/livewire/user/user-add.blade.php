@@ -12,6 +12,7 @@ new class extends Component {
         if ($this->form->add($this->role)) {
             sweetalert("create {$this->role->value} Success");
             $this->dispatch('closeModal');
+            $this->dispatch('reloadPage');
         }
     }
 };

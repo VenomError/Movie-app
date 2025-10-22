@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\ShowTime;
 use App\Models\MovieImage;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -64,13 +65,18 @@ class Movie extends Model
     }
 
     /**
-     * Scope a query to only include getNowShowing
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * Accessor: durasi dalam format manusiawi (misal "2 jam 15 menit")
      */
-    public function scopeGetNowShowing($query)
+    public function getDurationHumanAttribute(): string
     {
-        return $query->where('release_date', '<=', now());
+        if (!$this->duration) {
+            return '-';
+        }
+
+        return CarbonInterval::minutes($this->duration)
+            ->cascade() // ubah 90 menit -> 1 jam 30 menit
+            ->forHumans(['short' => false, 'join' => true]);
     }
+
+
 }

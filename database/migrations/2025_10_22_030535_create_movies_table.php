@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('title')->unique();
             $table->text('description');
             $table->integer('duration');
-            $table->string('genre')->unique();
+            $table->string('genre')->index();
             $table->string('rating')->default(0);
             $table->string('thumbnail')->nullable();
             $table->dateTime('release_date');

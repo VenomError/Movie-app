@@ -1,10 +1,10 @@
-@props(['title', 'icon' => '', 'count' => 0])
-<div class="card">
+@props(['title', 'icon' => '', 'count' => 0, 'color' => 'primary'])
+<div class="card border-{{ $color }} border">
     <div class="card-body">
         <h5 class="text-muted fs-13 text-uppercase" title="{{ $title }}">{{ $title }}</h5>
         <div class="d-flex align-items-center mt-2 gap-2">
             <div class="avatar-md flex-shrink-0">
-                <span class="avatar-title bg-primary-subtle text-primary fs-22 rounded">
+                <span class="avatar-title bg-{{ $color }}-subtle text-{{ $color }} fs-22 rounded">
                     <i class="{{ $icon }}"></i>
                 </span>
             </div>

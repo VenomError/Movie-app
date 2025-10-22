@@ -6,6 +6,7 @@ use App\Models\Hall;
 use App\Models\Movie;
 use App\Models\Booking;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property int $id
@@ -59,5 +60,28 @@ class ShowTime extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    // 🔹 Scope: Belum tayang
+    public function scopeBelumTayang(Builder $query): Builder
+    {
+        return $query->where('start_time', '>', now());
+    }
+
+    // 🔹 Scope: Sedang tayang
+    public function scopeSedangTayang(Builder $query): Builder
+    {
+        return $query->where('start_time', '<=', now())
+            ->whereHas('movie', function ($movieQuery) {
+                $movieQuery->whereRaw('DATE_ADD(show_times.start_time, INTERVAL movies.duration MINUTE) >= ?', [now()]);
+            });
+    }
+
+    // 🔹 Scope: Sudah tayang
+    public function scopeSudahTayang(Builder $query): Builder
+    {
+        return $query->whereHas('movie', function ($movieQuery) {
+            $movieQuery->whereRaw('DATE_ADD(show_times.start_time, INTERVAL movies.duration MINUTE) < ?', [now()]);
+        });
     }
 }

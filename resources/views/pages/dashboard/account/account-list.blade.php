@@ -1,6 +1,7 @@
 <?php
 use App\Models\User;
 use App\Enum\UserRole;
+use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
@@ -23,6 +24,12 @@ new #[Layout('components.layouts.dashboard', ['title' => 'Dashboard Admin'])] cl
     public function count()
     {
         return User::role($this->role)->count();
+    }
+
+    #[On('reloadPage')]
+    public function render(): mixed
+    {
+        return parent::render();
     }
 };
 ?>
