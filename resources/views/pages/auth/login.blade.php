@@ -1,52 +1,62 @@
 <?php
 use Livewire\Volt\Component;
-new #[Layout('components.layouts.auth')] class extends Component {};
+use App\Services\LoginService;
+use Livewire\Attributes\Layout;
+
+new #[Layout('components.layouts.auth')] class extends Component {
+    public $email;
+    public $password;
+    public $remember = true;
+
+    public function loginSubmit()
+    {
+        $this->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        try {
+            $service = new LoginService($this->email, $this->password, $this->remember);
+            $this->reset();
+            return $service->handle();
+        } catch (\Throwable $th) {
+            $this->addError('login', $th->getMessage());
+        }
+    }
+};
 ?>
 <div>
 
     <h3 class="fw-semibold mb-2">Login your account</h3>
 
     <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
-
-    <div class="d-flex justify-content-center mb-3 gap-2">
-        <a class="btn btn-soft-danger avatar-lg" href="#!"><i class="ti ti-brand-google-filled fs-24"></i></a>
-        <a class="btn btn-soft-success avatar-lg" href="#!"><i class="ti ti-brand-apple fs-24"></i></a>
-        <a class="btn btn-soft-primary avatar-lg" href="#!"><i class="ti ti-brand-facebook fs-24"></i></a>
-        <a class="btn btn-soft-info avatar-lg" href="#!"><i class="ti ti-brand-linkedin fs-24"></i></a>
-    </div>
-
-    <p class="fs-13 fw-semibold">Or Login With Email</p>
-
-    <form class="mb-3 text-start" action="https://coderthemes.com/osen/layouts/index.html">
-        <div class="mb-3">
-            <label class="form-label" for="example-email">Email</label>
-            <input
-                class="form-control"
-                id="example-email"
-                name="example-email"
-                type="email"
-                placeholder="Enter your email"
-            >
+    @error('login')
+        <div class="alert alert-danger alert-dismissible d-flex align-items-center border-danger border-2" role="alert">
+            <button
+                class="btn-close"
+                data-bs-dismiss="alert"
+                type="button"
+                aria-label="Close"
+            ></button>
+            <iconify-icon class="fs-20 me-1" icon="solar:danger-triangle-bold-duotone"></iconify-icon>
+            <div class="lh-1"><strong>Login Failed - </strong> {{ $message }} </div>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label" for="example-password">Password</label>
-            <input
-                class="form-control"
-                id="example-password"
-                type="password"
-                placeholder="Enter your password"
-            >
-        </div>
+    @enderror
+    <form class="mb-3 text-start" wire:submit.prevent='loginSubmit()'>
+        <x-input type="email" label="Email" wire:model='email' />
+        <x-input type="password" label="Password" wire:model='password' />
 
         <div class="d-flex justify-content-between mb-3">
             <div class="form-check">
-                <input class="form-check-input" id="checkbox-signin" type="checkbox">
+                <input
+                    class="form-check-input"
+                    id="checkbox-signin"
+                    type="checkbox"
+                    wire:model='remember'
+                >
                 <label class="form-check-label" for="checkbox-signin">Remember me</label>
             </div>
 
-            <a class="text-muted border-bottom border-dashed" href="auth-recoverpw.html">Forget
-                Password</a>
         </div>
 
         <div class="d-grid">
@@ -55,7 +65,7 @@ new #[Layout('components.layouts.auth')] class extends Component {};
     </form>
 
     <p class="text-danger fs-14 mb-4">Don't have an account? <a class="fw-semibold text-dark ms-1"
-            href="auth-register.html"
+            href="{{ route('register') }}"
         >Sign Up !</a></p>
 
 </div>

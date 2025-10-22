@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enum\UserRole;
 use Illuminate\Support\Facades\Auth;
 
 class LoginService
@@ -19,17 +20,22 @@ class LoginService
 
     public function handle()
     {
-        $credentials = [
+        $isLogin = Auth::attempt([
             'email' => $this->email,
             'password' => $this->password
-        ];
-        $isLogin = Auth::attempt($credentials, $this->remember);
-        if ($isLogin) {
+        ], $this->remember);
+        if (!$isLogin) {
             throw new \Exception("Invalid email or password");
+        } else {
+            // check user role and redirect
+            $user = Auth::user();
+            sweetalert("Login Success");
+            if ($user->hasRole(UserRole::ADMIN)) {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect('/');
+            }
         }
 
-        // check user role and redirect
-        sweetalert("Login Success");
-        return redirect('/');
     }
 }

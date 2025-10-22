@@ -58,14 +58,14 @@
                         aria-haspopup="false"
                         aria-expanded="false"
                     >
-                        <img
+                        <x-img
                             class="rounded-circle me-lg-2 d-flex"
                             src="assets/images/users/avatar-1.jpg"
                             alt="user-image"
                             width="32"
-                        >
+                        />
                         <span class="d-lg-flex flex-column d-none gap-1">
-                            <h5 class="my-0">Dhanoo K.</h5>
+                            <h5 class="my-0">{{ auth()->user()->name }}</h5>
                             <h6 class="fw-normal my-0">Admin</h6>
                         </span>
                         <i class="ti ti-chevron-down d-none d-lg-block ms-2 align-middle"></i>
