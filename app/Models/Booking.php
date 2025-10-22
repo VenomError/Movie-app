@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Seat;
+use App\Models\User;
+use App\Models\ShowTime;
 use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
@@ -27,5 +30,19 @@ class Booking extends Model
         'booking_time' => 'datetime',
         'total_price' => 'decimal',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function showTime()
+    {
+        return $this->belongsTo(ShowTime::class);
+    }
+
+    public function seats()
+    {
+        return $this->belongsToMany(Seat::class, 'booked_seats');
+    }
 
 }

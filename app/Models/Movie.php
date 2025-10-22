@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\ShowTime;
+use App\Models\MovieImage;
 use Illuminate\Database\Eloquent\Model;
 
 class Movie extends Model
@@ -20,4 +22,14 @@ class Movie extends Model
         'rating' => 'integer',
         'duration' => 'integer'
     ];
+
+    public function showTimes()
+    {
+        return $this->hasMany(ShowTime::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(MovieImage::class);
+    }
 }
