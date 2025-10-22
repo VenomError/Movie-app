@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cinema extends Model
 {
-    //
+
+    protected $fillable = [
+        'name',
+        'city',
+        'address',
+        'latitude',
+        'longitude',
+    ];
 }

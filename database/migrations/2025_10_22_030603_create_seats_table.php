@@ -1,11 +1,12 @@
 <?php
 
+use App\Enum\SeatType;
+use App\Models\Hall;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +14,10 @@ return new class extends Migration
     {
         Schema::create('seats', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Hall::class)->constrained()->cascadeOnDelete();
+            $table->string('seat_code');
+            $table->string('seat_number');
+            $table->enum('type', SeatType::cases())->default(SeatType::REGULAR);
             $table->timestamps();
         });
     }
