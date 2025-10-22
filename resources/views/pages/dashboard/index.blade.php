@@ -6,6 +6,6 @@ new #[Layout('components.layouts.dashboard', ['title' => 'Dashboard Admin'])] cl
 ?>
 <div class="row">
     <div class="col-12">
-        Dashboar ADMIN
+
     </div>
 </div>

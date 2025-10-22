@@ -22,7 +22,7 @@
             href="assets/css/app.min.css"
             rel="stylesheet"
         />
-
+        @stack('style')
         <!-- Icons css -->
         <x-link type="text/css" href="assets/css/icons.min.css" rel="stylesheet" />
     </head>
@@ -41,7 +41,7 @@
 
             <div class="page-content">
 
-                <div class="page-container py-2">
+                <div class="page-container mt-3">
                     {{ $pageTitle ?? '' }}
                     {{ $slot }}
                 </div>
@@ -56,6 +56,8 @@
 
         <!-- Vendor js -->
         <x-script src="assets/js/vendor.min.js"></x-script>
+
+        @stack('script')
 
         <!-- App js -->
         <x-script src="assets/js/app.js"></x-script>
