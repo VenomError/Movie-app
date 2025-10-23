@@ -20,5 +20,6 @@ Route::prefix('/dashboard')->middleware(['auth', 'role:admin'])->name('dashboard
     Volt::route('/movies/add', 'dashboard.movies.movie-add')->name('.movies.add');
     Volt::route('/movies/{id}', 'dashboard.movies.movie-detail')->name('.movies.detail');
 
+    Volt::route('/cinemas', 'dashboard.cinemas.cinemas-add')->name('.cinemas.add');
 
 });

@@ -10,7 +10,8 @@
 <x-side-nav-item title="Add Movie" :href="route('dashboard.movies.add')" icon="ti ti-square-plus" />
 
 <x-side-nav-title title="Cinema" />
-<x-side-nav-item title="Cinema" :href="route('dashboard')" icon="ti ti-device-tv" />
+<x-side-nav-item title="Cinema" :href="route('dashboard.cinemas.add')" icon="ti ti-device-tv" />
+<x-side-nav-item title="Add Cinema" :href="route('dashboard.cinemas.add')" icon="ti ti-square-plus" />
 <x-side-nav-item title="Studio" :href="route('dashboard')" icon="ti ti-screen-share" />
 <x-side-nav-item title="Seat" :href="route('dashboard')" icon="ti ti-armchair" />
 <x-side-nav-item title="Calendar" :href="route('dashboard')" icon="ti ti-calendar-event" />

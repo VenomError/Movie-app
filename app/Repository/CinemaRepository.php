@@ -2,13 +2,16 @@
 
 namespace App\Repository;
 
+use App\Models\Cinema;
+
 class CinemaRepository
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
+    public function create(array $data): Cinema
     {
-        //
+        $cinema = new Cinema();
+        $cinema->fill($data);
+        $cinema->save();
+
+        return $cinema;
     }
 }
