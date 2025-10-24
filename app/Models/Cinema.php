@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $address
  * @property string|null $latitude
  * @property string|null $longitude
+ * @property string|null $thumbnail
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Hall> $halls
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cinema whereLatitude($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cinema whereLongitude($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cinema whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cinema whereThumbnail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cinema whereUpdatedAt($value)
  * @mixin \Eloquent
  */

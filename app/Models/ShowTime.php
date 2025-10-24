@@ -20,16 +20,19 @@ use Illuminate\Database\Eloquent\Builder;
  * @property-read int|null $bookings_count
  * @property-read Hall $hall
  * @property-read Movie $movie
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereHallId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereMovieId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereStartTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShowTime whereUpdatedAt($value)
+ * @method static Builder<static>|ShowTime belumTayang()
+ * @method static Builder<static>|ShowTime newModelQuery()
+ * @method static Builder<static>|ShowTime newQuery()
+ * @method static Builder<static>|ShowTime query()
+ * @method static Builder<static>|ShowTime sedangTayang()
+ * @method static Builder<static>|ShowTime sudahTayang()
+ * @method static Builder<static>|ShowTime whereCreatedAt($value)
+ * @method static Builder<static>|ShowTime whereHallId($value)
+ * @method static Builder<static>|ShowTime whereId($value)
+ * @method static Builder<static>|ShowTime whereMovieId($value)
+ * @method static Builder<static>|ShowTime wherePrice($value)
+ * @method static Builder<static>|ShowTime whereStartTime($value)
+ * @method static Builder<static>|ShowTime whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class ShowTime extends Model

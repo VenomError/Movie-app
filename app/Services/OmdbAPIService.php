@@ -3,8 +3,9 @@
 namespace App\Services;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class OmdbAPIService
 {
@@ -19,67 +20,69 @@ class OmdbAPIService
         $this->baseImgUrl = config('omdb.base_img_url', 'https://img.omdbapi.com/');
     }
 
-    /**
-     * Search movies by keyword
-     */
     public function search(string $s, int $page = 1, array $options = ['type' => 'movie']): Collection
     {
-        $params = array_merge([
-            'apikey' => $this->apiKey,
-            's' => $s,
-            'page' => $page,
-        ], $options);
+        $cacheKey = "omdb_search_" . md5($s . "_page_" . $page . serialize($options));
 
-        $response = Http::get($this->baseUrl, $params);
-        $data = $response->json();
+        return Cache::remember($cacheKey, now()->addHours(12), function () use ($s, $page, $options) {
+            $params = array_merge([
+                'apikey' => $this->apiKey,
+                's' => $s,
+                'page' => $page,
+            ], $options);
 
-        $movies = collect($data['Search'] ?? [])->map(fn($d) => collect($d));
+            $response = Http::get($this->baseUrl, $params);
+            $data = $response->json();
 
+            $movies = collect($data['Search'] ?? [])->map(fn($d) => collect($d));
 
-        return collect([
-            'totalResults' => $data['totalResults'] ?? 0,
-            'movies' => $movies
-        ]);
+            return collect([
+                'totalResults' => $data['totalResults'] ?? 0,
+                'movies' => $movies
+            ]);
+        });
     }
 
-    /**
-     * Find movie by IMDb ID
-     */
     public function findById(string $id, array $options = []): Collection
     {
-        $params = array_merge([
-            'apikey' => $this->apiKey,
-            'i' => $id,
-        ], $options);
+        $cacheKey = "omdb_movie_" . $id;
 
-        $response = Http::get($this->baseUrl, $params);
-        $data = $response->json();
+        return Cache::remember($cacheKey, now()->addHours(24), function () use ($id, $options) {
+            $params = array_merge([
+                'apikey' => $this->apiKey,
+                'i' => $id,
+            ], $options);
 
-        if (($data['Response'] ?? '') !== 'True') {
-            return collect();
-        }
+            $response = Http::get($this->baseUrl, $params);
+            $data = $response->json();
 
-        return collect($this->format($data));
+            if (($data['Response'] ?? '') !== 'True') {
+                return collect();
+            }
+
+            return collect($this->format($data));
+        });
     }
 
-    /**
-     * Find movie by exact title
-     */
     public function findByTitle(string $title, array $options = []): Collection
     {
-        $params = array_merge([
-            'apikey' => $this->apiKey,
-            't' => $title,
-        ], $options);
+        $cacheKey = "omdb_title_" . md5($title);
 
-        $response = Http::get($this->baseUrl, $params);
-        $data = $response->json();
+        return Cache::remember($cacheKey, now()->addHours(24), function () use ($title, $options) {
+            $params = array_merge([
+                'apikey' => $this->apiKey,
+                't' => $title,
+            ], $options);
 
-        if (($data['Response'] ?? '') !== 'True') {
-            return collect();
-        }
+            $response = Http::get($this->baseUrl, $params);
+            $data = $response->json();
 
-        return collect($this->format($data));
+            if (($data['Response'] ?? '') !== 'True') {
+                return collect();
+            }
+
+            return collect($this->format($data));
+        });
     }
 
     /**

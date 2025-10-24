@@ -7,6 +7,7 @@
 
 <x-side-nav-title title="Movies" />
 <x-side-nav-item title="Movies" :href="route('dashboard.movies.list')" icon="ti ti-movie" />
+<x-side-nav-item title="Search Movie" :href="route('dashboard.movies.search')" icon="ti ti-world" />
 <x-side-nav-item title="Add Movie" :href="route('dashboard.movies.add')" icon="ti ti-square-plus" />
 
 <x-side-nav-title title="Cinema" />
