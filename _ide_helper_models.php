@@ -126,7 +126,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $imdb_id
+ * @property string $year
+ * @property string|null $rated
+ * @property string|null $director
+ * @property string|null $writer
+ * @property string|null $actors
+ * @property string|null $language
+ * @property string|null $country
+ * @property string|null $awards
+ * @property int $votes
+ * @property string $type
  * @property-read string $duration_human
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereActors($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereAwards($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereDirector($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereImdbId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereRated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereVotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereWriter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Movie whereYear($value)
  */
 	class Movie extends \Eloquent {}
 }

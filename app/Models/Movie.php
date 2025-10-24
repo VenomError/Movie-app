@@ -40,13 +40,24 @@ use Illuminate\Database\Eloquent\Model;
 class Movie extends Model
 {
     protected $fillable = [
+        'imdb_id',
         'title',
-        'description',
+        'year',
+        'rated',
+        'release_date',
         'duration',
         'genre',
-        'rating',
+        'director',
+        'writer',
+        'actors',
+        'description',
+        'language',
+        'country',
+        'awards',
         'thumbnail',
-        'release_date'
+        'rating',
+        'votes',
+        'type',
     ];
     protected $casts = [
         'release_date' => 'datetime',

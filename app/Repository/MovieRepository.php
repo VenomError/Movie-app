@@ -7,12 +7,14 @@ use App\Models\MovieImage;
 
 class MovieRepository
 {
-    public function create(array $data)
+    public function create(array $data): Movie
     {
-        $movie = new Movie($data);
-        $movie->save();
+        $existing = Movie::where('imdb_id', $data['imdb_id'])->first();
+        if ($existing) {
+            return $existing; // return existing movie
+        }
 
-        return $movie;
+        return Movie::create($data);
     }
 
     public function addImage(Movie $movie, $image): MovieImage
@@ -24,4 +26,5 @@ class MovieRepository
     {
         return $image->forceDelete();
     }
+
 }

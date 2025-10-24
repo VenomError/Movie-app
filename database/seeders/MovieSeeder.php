@@ -4,13 +4,13 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Repository\MovieRepository;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use function Laravel\Prompts\{
     progress,
     text,
     info,
-    error
+    error,
+    spin,
+    confirm
 };
 
 class MovieSeeder extends Seeder
@@ -21,35 +21,73 @@ class MovieSeeder extends Seeder
     public function run(): void
     {
         $repo = new MovieRepository();
-        $count = (int) text("jumlah movie ", default: 10);
-        progress("membuat movie", range(1, $count), function ($step, $progress) use ($repo) {
-            try {
-                DB::beginTransaction();
-                $title = fake()->unique()->sentence(3);
-                $progress->hint("Create Movie " . $step);
-                $movie = $repo->create([
-                    'title' => $title, // contoh: "The Lost Journey"
-                    'description' => fake()->realText(200),   // deskripsi acak
-                    'duration' => fake()->numberBetween(60, 210), // menit (1–3,5 jam)
-                    'genre' => fake()->randomElement([
-                        'Action',
-                        'Drama',
-                        'Comedy',
-                        'Romance',
-                        'Thriller',
-                        'Horror',
-                        'Sci-Fi',
-                        'Adventure'
-                    ]),
-                    'rating' => fake()->randomFloat(1, 1, 10), // contoh: 7.8
-                    'thumbnail' => "https://placehold.co/400x400/png",
-                    'release_date' => fake()->dateTimeBetween('-5 years', 'now')->format('Y-m-d'),
-                ]);
-                DB::commit();
-            } catch (\Throwable $th) {
-                DB::rollBack();
-                error($th->getMessage());
+        $apiService = new \App\Services\OmdbAPIService();
+
+        $search = text('Search Movie Name', "Search Movie, contoh 'Spiderman'", required: true);
+
+        $page = 1;
+        $continue = true;
+
+        while ($continue) {
+            $searchResult = spin(fn() => $apiService->search($search, $page), "Searching movies ... (Page $page)");
+
+            $totalResults = (int) $searchResult->get('totalResults', 0);
+            $movies = $searchResult->get('movies', collect());
+
+            if ($movies->isEmpty()) {
+                info("Tidak ada hasil ditemukan.");
+                break;
             }
-        });
+
+            info("Menemukan " . $movies->count() . " movie dari total $totalResults hasil.");
+
+            if (confirm("Simpan data movie ke database?", true)) {
+                progress("Menyimpan Movies Page $page", $movies, function ($movie, $progress) use ($apiService, $repo) {
+                    $title = $movie['Title'] ?? 'Unknown';
+                    $progress->hint("Processing Movie: " . $title);
+
+                    try {
+                        $imdbId = $movie['imdbID'] ?? null;
+                        if (!$imdbId) {
+                            error("Skipping movie '$title': IMDb ID kosong.");
+                            return;
+                        }
+
+                        // Ambil detail lengkap
+                        $movieData = spin(fn() => $apiService->findById($imdbId), 'Getting movie detail...');
+                        if ($movieData->isEmpty()) {
+                            error("Skipping movie '$title': data detail kosong.");
+                            return;
+                        }
+
+                        // Pastikan data penting ada
+                        if (!$movieData->get('imdb_id') || !$movieData->get('title') || !$movieData->get('year')) {
+                            error("Skipping movie '$title': data tidak lengkap (imdb_id/title/year).");
+                            return;
+                        }
+
+                        $created = $repo->create($movieData->toArray());
+                        if (!$created) {
+                            error("Gagal menyimpan movie '$title'.");
+                        }
+
+                    } catch (\Throwable $th) {
+                        error("Failed saving movie '$title': " . $th->getMessage());
+                    }
+                });
+            }
+
+            // Cek page berikutnya
+            $maxPage = ceil($totalResults / 10);
+            if ($page >= $maxPage) {
+                info("Semua halaman sudah diproses.");
+                break;
+            }
+
+            $continue = confirm("Lanjut ke page berikutnya?", true);
+            $page++;
+        }
+
+        info("Seeding selesai. Total movie di database: " . \App\Models\Movie::count());
     }
 }
