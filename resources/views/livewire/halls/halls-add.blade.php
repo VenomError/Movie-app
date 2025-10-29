@@ -16,7 +16,6 @@ new #[Layout('components.layouts.dashboard', ['title' => 'Add Hall'])] class ext
     public function submit()
     {
         if($this->form->addHall(Cinema::find($this->cinema))){
-            $this->reset('cinema');
             $this->dispatch('reloadPage');
         }
     }
@@ -25,7 +24,7 @@ new #[Layout('components.layouts.dashboard', ['title' => 'Add Hall'])] class ext
 <div>
     <form wire:submit.prevent='submit()'>
         <x-input type="text" label="Hall Name" wire:model='form.name' />
-        <x-input.select label="Select Cinema" wire:model='cinema'>
+        <x-input.select label="Cinema" wire:model='cinema'>
             @foreach ($cinemas as $cinema )
                 <option value="{{ $cinema->id }}" >{{ $cinema->name }}</option>
             @endforeach

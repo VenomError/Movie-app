@@ -22,7 +22,7 @@
             'name' => $model,
         ]) }}
     >
-        <option value="">-- Pilih {{ Str::title($label) }} --</option>
+        <option value="">-- Select {{ Str::title($label) }} --</option>
         {{ $slot }}
     </select>
 
