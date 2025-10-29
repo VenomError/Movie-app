@@ -59,9 +59,10 @@ new #[Layout('components.layouts.dashboard', ['title' => 'List Movies'])] class 
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between border-bottom border-light">
-                <h4 class="header-title">List User Account</h4>
+                <h4 class="header-title">List Movies</h4>
                 <div>
                     <a class="btn btn-primary" href="{{ route('dashboard.movies.add') }}">Add Movie</a>
+                    <a class="btn btn-primary" href="{{ route('dashboard.movies.search') }}">Search Movie</a>
                 </div>
             </div>
             <div class="card-body">

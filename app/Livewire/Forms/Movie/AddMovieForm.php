@@ -18,6 +18,12 @@ class AddMovieForm extends Form
     public $rating = 0;
     public $thumbnail;
     public $release_date;
+    public $director;
+    public $writer;
+    public $actors;
+    public $language = 'english';
+    public $country;
+    public $year = 2025;
 
     public array $images = [];
 
@@ -28,6 +34,11 @@ class AddMovieForm extends Form
             'description' => 'required',
             'duration' => 'required|integer',
             'genre' => 'required',
+            'director' => 'required',
+            'writer' => 'required',
+            'actors' => 'required',
+            'language' => 'required',
+            'country' => 'required',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             'release_date' => 'required',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120'
@@ -41,6 +52,9 @@ class AddMovieForm extends Form
         try {
             return DB::transaction(function () {
                 $movieRepo = new MovieRepository();
+                if($this->thumbnail) {
+                    $this->thumbnail = $this->thumbnail->store('movies', 'public');
+                }
                 $movie = $movieRepo->create($this->except('images'));
                 collect($this->images)->each(function ($image) use ($movie, $movieRepo) {
                     $image = $image->store('movies', 'public');

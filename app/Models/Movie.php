@@ -6,6 +6,7 @@ use App\Models\ShowTime;
 use App\Models\MovieImage;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property int $id
@@ -116,9 +117,5 @@ class Movie extends Model
             ->forHumans(['short' => false, 'join' => true]);
     }
 
-    public function getThumbnailAttribute(?string $value): string
-    {
-        return $value ?? "https://placehold.co/230x300@3x?text=NOT+FOUND";
-    }
 
 }

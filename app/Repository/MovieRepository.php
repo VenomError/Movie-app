@@ -9,9 +9,11 @@ class MovieRepository
 {
     public function create(array $data): Movie
     {
-        $existing = Movie::where('imdb_id', $data['imdb_id'])->first();
-        if ($existing) {
-            return $existing; // return existing movie
+        if (isset($data['imdb_id'])) {
+            $existing = Movie::where('imdb_id', $data['imdb_id'])->first();
+            if ($existing) {
+                return $existing; // return existing movie
+            }
         }
 
         return Movie::create($data);

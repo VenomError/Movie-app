@@ -71,7 +71,19 @@ new #[Layout('components.layouts.dashboard', ['title' => 'Add Movies'])] class e
                         <x-input.textarea rows="8" wire:model.blur='form.description' label="Description" />
                         <x-input type="number" wire:model.blur='form.duration' label="Duration (minutes)" />
                         <x-input type="text" wire:model.blur='form.genre' label="Genre" />
+                        <x-input type="number" wire:model.blur='form.year' label="year" />
                         <x-input type="date" wire:model.blur='form.release_date' label="Relesate Date" />
+                        <x-input type="text" wire:model.blur='form.director' label="director" >
+                            Gunakan tanda (,) jika lebih dari satu
+                        </x-input>
+                        <x-input type="text" wire:model.blur='form.writer' label="writer" >
+                            Gunakan tanda (,) jika lebih dari satu
+                        </x-input>
+                        <x-input type="text" wire:model.blur='form.actors' label="actors" >
+                            Gunakan tanda (,) jika lebih dari satu
+                        </x-input>
+                        <x-input type="text" wire:model.blur='form.language' label="language" />
+                        <x-input type="text" wire:model.blur='form.country' label="country" />
                         <div class="d-flex float-end">
                             <x-button>Add Movie</x-button>
                         </div>

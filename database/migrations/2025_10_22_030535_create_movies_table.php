@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('imdb_id')->unique();
+            $table->string('imdb_id')->nullable()->unique();
             $table->string('title')->unique();
             $table->string('year');
             $table->string('rated')->nullable();
