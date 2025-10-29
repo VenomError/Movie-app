@@ -35,14 +35,10 @@ class Hall extends Model
     protected $fillable = [
         'cinema_id',
         'name',
-        'total_seat',
     ];
 
-    protected $casts = [
-        'total_seat' => 'integer'
-    ];
 
-    public function cinema()
+   public function cinema()
     {
         return $this->belongsTo(Cinema::class);
     }

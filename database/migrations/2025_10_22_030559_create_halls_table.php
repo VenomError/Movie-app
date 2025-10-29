@@ -15,7 +15,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(Cinema::class)->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->integer('total_seat')->default(0);
             $table->timestamps();
         });
     }
