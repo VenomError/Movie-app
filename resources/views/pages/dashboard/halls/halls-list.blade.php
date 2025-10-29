@@ -39,7 +39,7 @@ new #[Layout('components.layouts.dashboard', ['title' => 'List Hall'])] class ex
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
-                                <th>Cinema</th>
+                                <th>Total Seats</th>
                                 <th></th>
                             </tr>
                         </x-slot:head>
@@ -49,6 +49,7 @@ new #[Layout('components.layouts.dashboard', ['title' => 'List Hall'])] class ex
                                     <td>{{ $this->halls()->firstItem() + $loop->index }}</td>
                                     <td>{{ $hall->name }}</td>
                                     <td>{{ $hall->cinema->name }}</td>
+                                    <td>{{ $hall->seats()->count() }}</td>
                                     <td></td>
                                 </tr>
                             @empty

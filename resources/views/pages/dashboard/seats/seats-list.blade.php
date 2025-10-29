@@ -157,39 +157,55 @@ new #[Layout('components.layouts.dashboard', ['title' => 'List Seats'])] class e
                                 Belum ada kursi yang tersedia untuk hall ini.
                             </div>
                         @else
+                            @php
+                                // tentukan jumlah kolom maksimum
+                                $cols = range($colsStart, $colsEnd); // misal 1-10
+                            @endphp
+
                             @foreach ($this->seats() as $row => $rowSeats)
                                 <div class="d-flex gap-2">
-                                    @foreach ($rowSeats as $seat)
+                                    @foreach ($cols as $col)
                                         @php
-                                            $seatClass = match ($seat->type->value) {
-                                                'regular' => 'bg-secondary',
-                                                'vip' => 'bg-primary',
-                                                'vvip' => 'bg-warning',
-                                                default => 'bg-secondary',
-                                            };
-                                            if ($seat->is_booked) {
-                                                $seatClass = 'bg-danger';
+                                            $seatNumber = $row . '-' . $col;
+                                            $seat = $rowSeats->firstWhere('seat_number', $seatNumber);
+
+                                            if ($seat) {
+                                                $seatClass = match ($seat->type->value) {
+                                                    'regular' => 'bg-danger',
+                                                    'vip' => 'bg-primary',
+                                                    'vvip' => 'bg-warning',
+                                                    default => 'bg-danger',
+                                                };
+                                                if ($seat->is_booked) {
+                                                    $seatClass = 'bg-danger';
+                                                }
                                             }
                                         @endphp
 
                                         <div class="seat-wrapper">
-                                            <div class="seat {{ $seatClass }}" title="{{ $seat->seat_number }}">
-                                                {{ $seat->seat_number }}
-                                            </div>
-                                            <button
-                                                class="seat-remove"
-                                                type="button"
-                                                title="remove seat"
-                                                wire:loading.attr='disabled'
-                                                wire:click='removeSeat({{ $seat->id }})'
-                                                wire:target='removeSeat({{ $seat->id }})'
-                                            >
-                                                <i class="ti ti-armchair-off"></i>
-                                            </button>
+                                            @if ($seat)
+                                                <div class="seat {{ $seatClass }}" title="{{ $seat->seat_number }}">
+                                                    {{ $seat->seat_number }}
+                                                </div>
+                                                <button
+                                                    class="seat-remove"
+                                                    type="button"
+                                                    title="remove seat"
+                                                    wire:loading.attr='disabled'
+                                                    wire:click='removeSeat({{ $seat->id }})'
+                                                    wire:target='removeSeat({{ $seat->id }})'
+                                                >
+                                                    <i class="ti ti-armchair-off"></i>
+                                                </button>
+                                            @else
+                                                <!-- Kosongkan tempat jika seat dihapus -->
+                                                <div class="seat invisible"></div>
+                                            @endif
                                         </div>
                                     @endforeach
                                 </div>
                             @endforeach
+
                         @endif
                     </div>
 
@@ -202,7 +218,7 @@ new #[Layout('components.layouts.dashboard', ['title' => 'List Seats'])] class e
                             <div class="seat bg-primary" style="width:20px; height:20px;"></div><span>VIP</span>
                         </div>
                         <div class="d-flex align-items-center gap-1">
-                            <div class="seat bg-secondary" style="width:20px; height:20px;"></div><span>Regular</span>
+                            <div class="seat bg-danger" style="width:20px; height:20px;"></div><span>Regular</span>
                         </div>
                         <div class="d-flex align-items-center gap-1">
                             <div class="seat bg-danger" style="width:20px; height:20px;"></div><span>Occupied</span>
@@ -231,10 +247,10 @@ new #[Layout('components.layouts.dashboard', ['title' => 'List Seats'])] class e
                                 <x-input type="text" label="Row End" wire:model='rowsEnd' />
                             </div>
                             <div class="col-lg-6">
-                                <x-input type="text" label="Col Start" wire:model='colsStart' />
+                                <x-input type="number" label="Col Start" wire:model='colsStart' />
                             </div>
                             <div class="col-lg-6">
-                                <x-input type="text" label="Col End" wire:model='colsEnd' />
+                                <x-input type="number" label="Col End" wire:model='colsEnd' />
                             </div>
                         </div>
 
