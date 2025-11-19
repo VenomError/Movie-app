@@ -148,13 +148,33 @@ new #[Layout('components.layouts.dashboard', ['title' => 'Search Movie'])] class
                     <div class="row">
                         @if (count($results) > 0)
                             @foreach ($results as $movie)
-                                <x-movie.search-card
-                                    :title="$movie['Title']"
-                                    :img="$movie['Poster'] !== 'N/A' ? $movie['Poster'] : 'https://via.placeholder.com/300x445?text=No+Image'"
-                                    :year="$movie['Year']"
-                                    :imdbID="$movie['imdbID']"
-                                    onAdd="addMovie('{{ $movie['imdbID'] }}')"
-                                />
+                                @php
+                                    $isExist = \App\Models\Movie::where('imdb_id', $movie['imdbID'])->exists();
+                                @endphp
+                                    <div class="col-md-4 mb-3" wire:key="{{ $movie['imdbID'] }}">
+                                        <div class="card h-100">
+                                            <!-- Poster -->
+                                            <img class="card-img-top img-fluid" src="{{ $movie['Poster'] !== 'N/A' ? $movie['Poster'] : 'https://via.placeholder.com/300x445?text=No+Image' }}" style="height: 445px;">
+                                            <div class="card-body d-flex flex-column">
+                                                <h5 class="card-title text-center">{{ Str::title($movie['Title']) }}</h5>
+                                                <p class="card-text text-center">Tahun : {{ $movie['Year'] }}</p>
+                                                @if ($isExist)
+                                                    <button class="btn btn-dark w-100 mt-auto" disabled>
+                                                        Sudah di Tambahkan
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-primary w-100 mt-auto" wire:click="addMovie('{{ $movie['imdbID'] }}')" wire:target="addMovie('{{ $movie['imdbID'] }}')"
+                                                        wire:loading.attr='disabled'>
+                                                        <span wire:target="addMovie('{{ $movie['imdbID'] }}')" wire:loading.remove>Add Movie</span>
+                                                        <x-spinner class="me-2" color="white" wire:target="addMovie('{{ $movie['imdbID'] }}')" wire:loading />
+                                                        <span wire:target="addMovie('{{ $movie['imdbID'] }}')" wire:loading>
+                                                            Loading...
+                                                        </span>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                             @endforeach
                         @else
                             <div class="col-12">

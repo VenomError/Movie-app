@@ -38,13 +38,13 @@
                                 class="logo-dark"
                                 src="assets/images/logo-dark.png"
                                 alt="dark logo"
-                                height="24"
+                                  height="100"
                             />
                             <x-img
                                 class="logo-light"
-                                src="assets/images/logo.png"
+                                src="assets/images/logo-dark.png"
                                 alt="logo light"
-                                height="24"
+                                height="100"
                             />
                         </a>
                         {{ $slot }}

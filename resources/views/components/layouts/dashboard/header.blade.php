@@ -3,15 +3,19 @@
         <div class="d-flex align-items-center gap-2">
 
             <!-- Brand Logo -->
-            <a class="logo" href="index.html">
+            <a class="logo" href="{{ route('dashboard') }}">
                 <span class="logo-light">
-                    <span class="logo-lg"><x-img src="assets/images/logo.png" alt="logo" /></span>
-                    <span class="logo-sm"><x-img src="assets/images/logo-sm.png" alt="small logo" /></span>
+                    <span class="logo-lg">
+                        <x-img src="assets/images/logo-dark.png" style="width: 150px !important; height: 50px !important;" alt="logo" />
+                    </span>
+                    <span class="logo-sm">
+                        <x-img src="assets/images/logo-dark.png" alt="small logo" />
+                    </span>
                 </span>
 
                 <span class="logo-dark">
-                    <span class="logo-lg"><x-img src="assets/images/logo-dark.png" alt="dark logo" /></span>
-                    <span class="logo-sm"><x-img src="assets/images/logo-sm.png" alt="small logo" /></span>
+                    <span class="logo-lg"><x-img src="assets/images/logo-dark.png" alt="dark logo" style="width: 150px !important; height: 50px !important;" /></span>
+                    <span class="logo-sm"><x-img src="assets/images/logo-dark.png" alt="small logo" /></span>
                 </span>
             </a>
 
@@ -30,12 +34,8 @@
 
             <!-- Button Trigger Customizer Offcanvas -->
             <div class="topbar-item d-none d-sm-flex">
-                <button
-                    class="topbar-link"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#theme-settings-offcanvas"
-                    type="button"
-                >
+                <button class="topbar-link" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas"
+                    type="button">
                     <i class="ti ti-settings fs-22"></i>
                 </button>
             </div>
@@ -50,20 +50,10 @@
             <!-- User Dropdown -->
             <div class="topbar-item nav-user">
                 <div class="dropdown">
-                    <a
-                        class="topbar-link dropdown-toggle drop-arrow-none px-2"
-                        data-bs-toggle="dropdown"
-                        data-bs-offset="0,19"
-                        type="button"
-                        aria-haspopup="false"
-                        aria-expanded="false"
-                    >
-                        <x-img
-                            class="rounded-circle me-lg-2 d-flex"
-                            src="assets/images/users/avatar-1.jpg"
-                            alt="user-image"
-                            width="32"
-                        />
+                    <a class="topbar-link dropdown-toggle drop-arrow-none px-2" data-bs-toggle="dropdown"
+                        data-bs-offset="0,19" type="button" aria-haspopup="false" aria-expanded="false">
+                        <x-img class="rounded-circle me-lg-2 d-flex" src="assets/images/users/avatar-1.jpg"
+                            alt="user-image" width="32" />
                         <span class="d-lg-flex flex-column d-none gap-1">
                             <h5 class="my-0">{{ auth()->user()->name }}</h5>
                             <h6 class="fw-normal my-0">Admin</h6>
