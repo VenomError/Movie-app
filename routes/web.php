@@ -9,6 +9,7 @@ Route::middleware('guest')->group(function () {
     Volt::route('/login', 'auth.login')->name('login');
     Volt::route('/register', componentName: 'auth.register')->name('register');
 });
+Volt::route('/', 'app.index');
 
 Route::get('/logout', fn(Request $request) => LogoutService::handle($request))->middleware('auth')->name('logout');
 
